@@ -160,30 +160,14 @@ def update_product_details(api_key: str, product_id: str, row_data: pd.Series, s
             },
             "typePrice": "HAS_PRICE"
         },
-        "physicalInfo": {
-            "sku": sku, 
-            "barcode": barcode,
-            "shipmentConfig": {
-                "widthCm": 25,
-                "heightCm": 5,
-                "lengthCm": 30,
-                "weightGram": 200
-            }
-        },
         "customFields": [
             {
                 "id": 220,
-                "value": warranty  # Swapped based on debug: User said 220=Brand but it showed Warranty value? 
-                                   # Wait. User said Brand showed Warranty Value (36).
-                                   # My code sent Warranty Value (36) to ID 136.
-                                   # So ID 136 MUST BE Brand.
-                                   # My code sent Brand Value (AMD) to ID 220.
-                                   # So ID 220 MUST BE Warranty.
-                                   # So I swap them here: 220 <- Warranty, 136 <- Brand.
+                "value": brand
             },
             {
                 "id": 216,
-                "value": category
+                "value": str(qty_sg)
             },
             {
                 "id": 215,
@@ -191,11 +175,11 @@ def update_product_details(api_key: str, product_id: str, row_data: pd.Series, s
             },
             {
                 "id": 212,
-                "value": str(qty_sg)
+                "value": category
             },
             {
                 "id": 136,
-                "value": brand
+                "value": warranty
             }
         ],
         "inventoryManagement": {
@@ -216,7 +200,7 @@ def update_product_details(api_key: str, product_id: str, row_data: pd.Series, s
 
 
 def main() -> None:
-    excel_file = Path("product.xlsx")
+    excel_file = Path("product2.xlsx")
     if not excel_file.exists():
         print(f"❌ File not found: {excel_file.resolve()}")
         return
